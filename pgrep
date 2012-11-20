@@ -1,0 +1,13 @@
+#!/usr/bin/perl
+
+$pat = shift || die "I won't search for nothing";
+while (<STDIN>) {
+    chomp;
+    if(-f $_ && open(IN, $_)) {
+	@matches = grep(/$pat/, <IN>);
+	close IN;
+	for $match (@matches) {
+	    print $_, ": ", $match;
+	}
+    }
+}
