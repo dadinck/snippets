@@ -1,0 +1,29 @@
+:
+# usage: own [-r] file...
+# use -r to operate on whole directories recursively (with caution)
+# directories are skipped without the -r option.
+# This routine is useless as root for two reasons:
+#  1. Root can do chown directly to anyone
+#  2. The cp -p will preserve the original owner, so ownership will not change.
+
+rec="0"
+rmflag="-f --"
+cpflag="-p --"
+if test $1 = "-r" ;
+then print "recursive"
+     rec="1"
+     rmflag="-rf --"
+     cpflag="-pR --"
+     shift
+fi
+
+for f in $*
+do
+    tmp=$f.$$
+    if test ! -d $f -o $rec = "1" ;
+    then
+	print "owning $f"
+	#don't cp if mv failed, don't rm if cp failed
+	mv -f -- $f $tmp && cp $cpflag $tmp $f && rm $rmflag $tmp
+    fi
+done
