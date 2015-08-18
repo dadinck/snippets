@@ -1,0 +1,13 @@
+:
+# list or less depending on if the args have any directories.
+act=less
+ls=ls
+for fi in $@
+   do
+   if [ -d $fi ]
+   then
+       act="ls -F"
+       break
+   fi
+   done
+$act $@
