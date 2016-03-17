@@ -1,0 +1,8 @@
+#! /bin/bash
+for fi in $*
+do
+  comp=`cat $fi|wc -c`
+  uncomp=`bzcat $fi|wc -c`
+  ratio=`dc -e "3 k $comp 100 * $uncomp / p"`
+  echo $fi: compressed $comp decompressed $uncomp ratio $ratio %
+done
