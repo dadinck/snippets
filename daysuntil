@@ -1,0 +1,13 @@
+#! /bin/bash
+
+if $( date -d today >/dev/null 2>&1 )
+then
+    NOW=`date -d "today 0" +%s`
+    THEN=`date -d "$1" +%s`
+else
+    NOW=`date -j -f "%H:%M" 0:0 +%s`
+    THEN=`date -j -f "%Y-%m-%d" "$1" +%s`
+fi
+
+echo $(( ( $THEN - $NOW + 3601) / 86400 ))
+
